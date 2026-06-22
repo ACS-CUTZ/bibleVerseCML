@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -6,7 +7,6 @@
 
 <title>Treasure Box - CML Chengalam</title>
 
-<!-- Google Font -->
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Poppins:wght@600&display=swap" rel="stylesheet">
 
 <style>
@@ -16,429 +16,220 @@ body {
   text-align: center;
   overflow: hidden;
   color: white;
-
   background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #fbc2eb, #a6c1ee);
   background-size: 400% 400%;
   animation: gradientBG 10s ease infinite;
 }
-
 @keyframes gradientBG {
   0% {background-position: 0% 50%;}
   50% {background-position: 100% 50%;}
   100% {background-position: 0% 50%;}
 }
-
-/* Header */
-.header {
-  margin-top: 10px;
-}
-
-.logo {
-  width: 90px;
-}
-
-/* CML Title */
+.header { margin-top: 10px; }
+.logo { width: 90px; }
 .cml-title {
   font-family: 'Poppins', sans-serif;
   font-size: 30px;
-  letter-spacing: 3px;
-  font-weight: 600;
-  text-transform: uppercase;
-  background: linear-gradient(45deg, #fff, #ffe600);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
 }
+.main-title { font-size: 38px; }
 
-
-/* Main title */
-.main-title {
-  font-size: 38px;
-  margin-top: 5px;
-  font-weight: 600;
-  text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
-}
-
-/* Reset button */
 .reset-btn {
   position: fixed;
   top: 15px;
   right: 15px;
-  padding: 10px 18px;
-  font-size: 16px;
-  border: none;
-  border-radius: 10px;
-  background: #ffcc00;
-  cursor: pointer;
 }
 
-/* Treasure box */
+.admin-btn {
+  position: fixed;
+  bottom: 15px;
+  right: 15px;
+}
+
 .box {
   font-size: 110px;
   margin-top: 40px;
   cursor: pointer;
-  transition: transform 0.3s;
-    position: relative;
 }
 
-box::before {
-  content: "";
-  position: absolute;
-  width: 150px;
-  height: 150px;
-  background: radial-gradient(circle, rgba(255,255,0,0.5), transparent);
-  border-radius: 50%;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  animation: glowPulse 2s infinite;
-  z-index: -1;
-}
-
-@keyframes glowPulse {
-  0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.5; }
-  50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
-  100% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.5; }
-}
-
-
-.box:hover {
-  transform: scale(1.1);
-}
-
-.box.open {
-  animation: bounce 0.5s;
-}
-
-@keyframes bounce {
-  0% {transform: scale(1);}
-  50% {transform: scale(1.3);}
-  100% {transform: scale(1);}
-}
-
-/* Tap hint */
-.tap-hint {
-  font-size: 22px;
-  margin-bottom: 10px;
-  text-align: center;
-  animation: float 1.5s infinite;
-}
-
-@keyframes float {
-  0% {transform: translateY(0);}
-  50% {transform: translateY(-10px);}
-  100% {transform: translateY(0);}
-}
-
-/* Pointing icon */
-.pointer {
-  display: block;
-  font-size: 30px;
-  animation: pointDown 1s infinite;
-}
-
-@keyframes point {
-  0% {transform: translateX(0);}
-  50% {transform: translateX(10px);}
-  100% {transform: translateX(0);}
-}
-
-@keyframes pointDown {
-  0% { transform: translateY(0); }
-  50% { transform: translateY(10px); }
-  100% { transform: translateY(0); }
-}
-
-/* Verse */
 .verse-box {
   display: none;
   margin: 20px auto;
   padding: 20px;
-  width: 85%;
-  max-width: 400px;
   background: white;
   color: black;
   border-radius: 15px;
-  font-size: 22px;
-  font-weight: bold;
-  box-shadow: 0 0 15px rgba(0,0,0,0.3);
 }
 
-/* Confetti */
-.confetti {
+/* Modal */
+.modal {
+  display: none;
   position: fixed;
-  width: 8px;
-  height: 8px;
-  top: 0;
-  animation: fall linear forwards;
+  top:0;left:0;
+  width:100%;height:100%;
+  background: rgba(0,0,0,0.7);
+  justify-content:center;
+  align-items:center;
 }
-
-@keyframes fall {
-  to { transform: translateY(100vh); }
+.modal-content {
+  background:white;
+  color:black;
+  padding:20px;
+  border-radius:10px;
+  width:300px;
 }
-
-.box-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin-top: 40px;
-}
-
-
-
-/* Mobile */
-@media (max-width: 600px) {
-  .main-title { font-size: 28px; }
-  .box { font-size: 90px; }
-}
-
-
-.bubbles {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  top: 0;
-  left: 0;
-  z-index: -1;
-}
-
-.bubbles span {
-  position: absolute;
-  display: block;
-  width: 20px;
-  height: 20px;
-  background: rgba(255,255,255,0.4);
-  border-radius: 50%;
-  animation: rise 10s linear infinite;
-}
-
-@keyframes rise {
-  0% {
-    transform: translateY(100vh) scale(0);
-  }
-  100% {
-    transform: translateY(-10vh) scale(1);
-  }
-}
-
-
-.stars span {
-  position: fixed;
-  width: 4px;
-  height: 4px;
-  background: white;
-  border-radius: 50%;
-  animation: twinkle 2s infinite ease-in-out;
-  z-index: -1;
-}
-
-@keyframes twinkle {
-  0%,100% { opacity: 0.2; }
-  50% { opacity: 1; }
-}
-
 </style>
+
 </head>
 
 <body>
 
-  
 <div class="header">
   <img src="cmlLogo.png" class="logo">
   <div class="cml-title">CML CHENGALAM</div>
   <div class="main-title">🎁 Treasure Box</div>
 </div>
 
-<button class="reset-btn" onclick="resetBox()">Reset 🔄</button>
-<button onclick="toggleMusic()" style="position:fixed;bottom:15px;left:15px;">🎵</button>
+<button class="reset-btn" onclick="resetBox()">Reset</button> <button onclick="toggleMusic()">🎵</button> <button class="admin-btn" onclick="openLogin()">🔐</button>
 
-
-<div class="bubbles"></div>
-<div class="box-container">
-  
-  <div class="tap-hint">
-    <span class="pointer">👇</span>
-    Tap to Open
-  </div>
-
+<div>
   <div id="box" class="box">🎁</div>
-
 </div>
-
-  <div id="adminPanel" style="display:none;position:fixed;top:10%;left:50%;transform:translateX(-50%);background:white;color:black;padding:20px;border-radius:10px;width:90%;max-width:400px;">
-
-  <h3>Admin Panel</h3>
-
-  <textarea id="quotesInput" style="width:100%;height:150px;"></textarea>
-
-  <button onclick="saveQuotes()">Save Quotes</button>
-
-  <hr>
-
-  <h4>Change Password</h4>
-  <input id="newUser" placeholder="New Username"><br>
-  <input id="newPass" placeholder="New Password"><br>
-  <button onclick="changePassword()">Update</button>
-
-  <br><br>
-  <button onclick="closeAdmin()">Close</button>
-
-</div>
-
 
 <div id="verseBox" class="verse-box">
   <p id="verse"></p>
 </div>
 
-<audio id="openSound" src="open.mp3"></audio>
-<audio id="sparkleSound" src="sparkle.mp3"></audio>
-<audio id="bgMusic" src="bgmusic.mp3" loop></audio>
+<!-- LOGIN -->
+
+<div id="loginModal" class="modal">
+  <div class="modal-content">
+    <h3>Admin Login</h3>
+    <input id="username" placeholder="Username"><br><br>
+    <input id="password" type="password" placeholder="Password"><br><br>
+    <button onclick="login()">Login</button>
+    <button onclick="closeLogin()">Close</button>
+  </div>
+</div>
+
+<!-- ADMIN -->
+
+<div id="adminPanel" class="modal">
+  <div class="modal-content">
+    <h3>Admin Panel</h3>
+    <textarea id="quotesInput" style="width:100%;height:120px;"></textarea><br><br>
+    <button onclick="saveQuotes()">Save</button>
+
+```
+<hr>
+
+<input id="newUser" placeholder="New Username"><br><br>
+<input id="newPass" placeholder="New Password"><br><br>
+<button onclick="changePassword()">Change</button>
+
+<br><br>
+<button onclick="closeAdmin()">Close</button>
+```
+
+  </div>
+</div>
+
+<audio id="openSound" src="open.mp3"></audio> <audio id="bgMusic" src="bgmusic.mp3" loop></audio>
 
 <script>
+
+let verses = [];
 let opened = false;
 
-const verses = [
-  "രക്ഷയുടെ പരിച അങ്ങ് എനിക്കു നൽകിയിരിക്കുന്നു.  — 2 സാമുവൽ 22:36",
-  "ശത്രുക്കളിൽ നിന്ന് നിനക്കു ഞാൻ ശാന്തി നൽകും.  — 2 സാമുവൽ 7:11",
-  "നിന്നെ ഞാൻ എൻ്റെ ഉള്ളം കൈയിൽ രേഖപ്പെടുത്തിയിരിക്കുന്നു.  — ഏശയ്യാ 49:16"
-];
+/* LOAD FROM JSON */
+fetch("verses.json")
+  .then(res => res.json())
+  .then(data => verses = data);
 
-
-
-let musicStarted = false;
-
-document.getElementById("box").addEventListener("click", () => {
-
-  if (!musicStarted) {
-    const music = document.getElementById("bgMusic");
-    music.volume = 0.3;
-    music.play();
-    musicStarted = true;
-  }
-
+/* BOX */
+document.getElementById("box").onclick = () => {
   if (opened) return;
   opened = true;
   openBox();
-});
+};
 
-function openAdminPanel() {
-  document.getElementById("adminPanel").style.display = "block";
+function openBox() {
+  document.getElementById("openSound").play();
+  const random = verses[Math.floor(Math.random()*verses.length)];
+  setTimeout(()=>{
+    document.getElementById("verse").innerText = random;
+    document.getElementById("verseBox").style.display="block";
+  },500);
+}
+
+function resetBox(){
+  opened=false;
+  document.getElementById("verseBox").style.display="none";
+}
+
+/* LOGIN */
+let ADMIN_USER = localStorage.getItem("user") || "ADMIN";
+let ADMIN_PASS = localStorage.getItem("pass") || "ADMIN";
+
+function openLogin(){
+  document.getElementById("loginModal").style.display="flex";
+}
+function closeLogin(){
+  document.getElementById("loginModal").style.display="none";
+}
+
+function login(){
+  let u=document.getElementById("username").value;
+  let p=document.getElementById("password").value;
+
+  if(u===ADMIN_USER && p===ADMIN_PASS){
+    closeLogin();
+    openAdmin();
+  } else {
+    alert("Invalid login");
+  }
+}
+
+/* ADMIN */
+function openAdmin(){
+  document.getElementById("adminPanel").style.display="flex";
   document.getElementById("quotesInput").value = verses.join("\n");
 }
-
-function closeAdmin() {
-  document.getElementById("adminPanel").style.display = "none";
+function closeAdmin(){
+  document.getElementById("adminPanel").style.display="none";
 }
 
-function changePassword() {
-  const newUser = document.getElementById("newUser").value;
-  const newPass = document.getElementById("newPass").value;
+/* SAVE TO GITHUB */
+async function saveQuotes(){
+  const quotes = document.getElementById("quotesInput").value.split("\n");
 
-  if (newUser && newPass) {
-    localStorage.setItem("adminUser", newUser);
-    localStorage.setItem("adminPass", newPass);
+  const res = await fetch("/api/saveQuotes",{
+    method:"POST",
+    headers:{
+      "Content-Type":"application/json",
+      "Authorization":"SECRET123"
+    },
+    body: JSON.stringify({quotes})
+  });
 
-    alert("Credentials updated!");
-  }
-}
-const bubblesContainer = document.querySelector('.bubbles');
-
-for (let i = 0; i < 25; i++) {
-  const bubble = document.createElement('span');
-  bubble.style.left = Math.random() * 100 + "vw";
-  bubble.style.animationDuration = (Math.random() * 5 + 5) + "s";
-  bubble.style.width = bubble.style.height = (Math.random() * 15 + 10) + "px";
-  bubblesContainer.appendChild(bubble);
-}
-
-for (let i = 0; i < 40; i++) {
-  const star = document.createElement('span');
-  star.style.left = Math.random() * 100 + "vw";
-  star.style.top = Math.random() * 100 + "vh";
-  star.style.animationDuration = (Math.random() * 2 + 1) + "s";
-  document.body.appendChild(star);
-}
-
-async function saveQuotes() {
-  const input = document.getElementById("quotesInput").value;
-  const quotes = input.split("\n");
-
-  try {
-    const res = await fetch("/api/saveQuotes", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ quotes }),
-    });
-
-    const data = await res.json();
-
-    if (data.success) {
-      alert("✅ Saved to GitHub! Site will update shortly.");
-    } else {
-      alert("❌ Error saving");
-    }
-
-  } catch (err) {
-    alert("❌ Failed: " + err.message);
+  const data = await res.json();
+  if(data.success){
+    alert("Saved! Redeploying...");
+  } else {
+    alert("Error");
   }
 }
 
-  headers: {
-  "Content-Type": "application/json",
-  "Authorization": "your-secret-key"
+/* PASSWORD CHANGE */
+function changePassword(){
+  localStorage.setItem("user", document.getElementById("newUser").value);
+  localStorage.setItem("pass", document.getElementById("newPass").value);
+  alert("Updated");
 }
 
-  const ADMIN_KEY = process.env.ADMIN_KEY;
-if (req.headers.authorization !== ADMIN_KEY) {
-  return res.status(401).json({ error: "Unauthorized" });
-}
-  
-function openBox() {
-  const box = document.getElementById("box");
-  const verseBox = document.getElementById("verseBox");
-  const verse = document.getElementById("verse");
-
-  document.getElementById("openSound").play();
-  box.classList.add("open");
-
-  const random = verses[Math.floor(Math.random() * verses.length)];
-
-  setTimeout(() => {
-    verse.innerText = random;
-    verseBox.style.display = "block";
-
-    launchConfetti();
-    document.getElementById("sparkleSound").play();
-  }, 700);
-}
-
-function resetBox() {
-  opened = false;
-  document.getElementById("verseBox").style.display = "none";
-  document.getElementById("box").classList.remove("open");
-}
-
-/* Confetti */
-function launchConfetti() {
-  for (let i = 0; i < 60; i++) {
-    const c = document.createElement("div");
-    c.className = "confetti";
-    c.style.left = Math.random() * 100 + "vw";
-    c.style.background = `hsl(${Math.random()*360},100%,60%)`;
-    c.style.animationDuration = (Math.random()*2+2)+"s";
-    document.body.appendChild(c);
-
-    setTimeout(() => c.remove(), 3000);
-  }
-}
-
-function toggleMusic() {
-  const music = document.getElementById("bgMusic");
-  if (music.paused) music.play();
-  else music.pause();
+/* MUSIC */
+function toggleMusic(){
+  let m=document.getElementById("bgMusic");
+  m.paused?m.play():m.pause();
 }
 
 </script>
