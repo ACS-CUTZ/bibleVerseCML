@@ -9,8 +9,8 @@ return res.status(401).json({ error: "Unauthorized" });
 const { quotes } = req.body;
 
 const token = process.env.GITHUB_TOKEN;
-const owner = "YOUR_USERNAME";
-const repo = "YOUR_REPO";
+const owner = "ACS-CUTZ";
+const repo = "bibleVerseCML";
 const path = "verses.json";
 
 const file = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${path}`,{
