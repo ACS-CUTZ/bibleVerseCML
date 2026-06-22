@@ -243,6 +243,7 @@ box::before {
 
 <body>
 
+  
 <div class="header">
   <img src="cmlLogo.png" class="logo">
   <div class="cml-title">CML CHENGALAM</div>
@@ -265,6 +266,25 @@ box::before {
 
 </div>
 
+  <div id="adminPanel" style="display:none;position:fixed;top:10%;left:50%;transform:translateX(-50%);background:white;color:black;padding:20px;border-radius:10px;width:90%;max-width:400px;">
+
+  <h3>Admin Panel</h3>
+
+  <textarea id="quotesInput" style="width:100%;height:150px;"></textarea>
+
+  <button onclick="saveQuotes()">Save Quotes</button>
+
+  <hr>
+
+  <h4>Change Password</h4>
+  <input id="newUser" placeholder="New Username"><br>
+  <input id="newPass" placeholder="New Password"><br>
+  <button onclick="changePassword()">Update</button>
+
+  <br><br>
+  <button onclick="closeAdmin()">Close</button>
+
+</div>
 
 
 <div id="verseBox" class="verse-box">
@@ -302,7 +322,26 @@ document.getElementById("box").addEventListener("click", () => {
   openBox();
 });
 
+function openAdminPanel() {
+  document.getElementById("adminPanel").style.display = "block";
+  document.getElementById("quotesInput").value = verses.join("\n");
+}
 
+function closeAdmin() {
+  document.getElementById("adminPanel").style.display = "none";
+}
+
+function changePassword() {
+  const newUser = document.getElementById("newUser").value;
+  const newPass = document.getElementById("newPass").value;
+
+  if (newUser && newPass) {
+    localStorage.setItem("adminUser", newUser);
+    localStorage.setItem("adminPass", newPass);
+
+    alert("Credentials updated!");
+  }
+}
 const bubblesContainer = document.querySelector('.bubbles');
 
 for (let i = 0; i < 25; i++) {
@@ -321,6 +360,42 @@ for (let i = 0; i < 40; i++) {
   document.body.appendChild(star);
 }
 
+async function saveQuotes() {
+  const input = document.getElementById("quotesInput").value;
+  const quotes = input.split("\n");
+
+  try {
+    const res = await fetch("/api/saveQuotes", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ quotes }),
+    });
+
+    const data = await res.json();
+
+    if (data.success) {
+      alert("✅ Saved to GitHub! Site will update shortly.");
+    } else {
+      alert("❌ Error saving");
+    }
+
+  } catch (err) {
+    alert("❌ Failed: " + err.message);
+  }
+}
+
+  headers: {
+  "Content-Type": "application/json",
+  "Authorization": "your-secret-key"
+}
+
+  const ADMIN_KEY = process.env.ADMIN_KEY;
+if (req.headers.authorization !== ADMIN_KEY) {
+  return res.status(401).json({ error: "Unauthorized" });
+}
+  
 function openBox() {
   const box = document.getElementById("box");
   const verseBox = document.getElementById("verseBox");
