@@ -1,237 +1,681 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Treasure Box - CML Chengalam</title>
-
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Poppins:wght@600&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="cmlLogo.png">
+<link rel="apple-touch-icon" href="cmlLogo.png">
 
 <style>
+:root {
+  --bg1: #f4e531;
+  --bg2: #ffc34d;
+  --bg3: #ef6a3c;
+  --bg4: #149c8f;
+  --card-bg: rgba(255, 255, 255, 0.22);
+  --card-border: rgba(255, 255, 255, 0.5);
+  --text: #ffffff;
+  --dark: #1d2a36;
+  --accent: #e53935;
+  --accent-2: #ffd54f;
+}
+
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   font-family: 'Fredoka', sans-serif;
   text-align: center;
-  overflow: hidden;
-  color: white;
-  background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #fbc2eb, #a6c1ee);
+  overflow-x: hidden;
+  color: var(--text);
+  background: linear-gradient(-45deg, var(--bg1), var(--bg2), var(--bg3), var(--bg4));
   background-size: 400% 400%;
-  animation: gradientBG 10s ease infinite;
+  animation: gradientBG 14s ease infinite;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 14px;
 }
+
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(10px);
+  z-index: 0;
+}
+
+body::before {
+  width: 220px;
+  height: 220px;
+  background: rgba(255, 255, 255, 0.16);
+  top: -70px;
+  right: -60px;
+}
+
+body::after {
+  width: 260px;
+  height: 260px;
+  background: rgba(255, 224, 163, 0.25);
+  bottom: -110px;
+  left: -80px;
+}
+
 @keyframes gradientBG {
-  0% {background-position: 0% 50%;}
-  50% {background-position: 100% 50%;}
-  100% {background-position: 0% 50%;}
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
-.header { margin-top: 10px; }
-.logo { width: 90px; }
+
+.app-shell {
+  width: min(560px, 100%);
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 24px;
+  padding: 16px 14px 20px;
+  box-shadow: 0 10px 35px rgba(27, 42, 60, 0.2);
+  backdrop-filter: blur(8px);
+  position: relative;
+  z-index: 1;
+}
+
+.header {
+  margin-top: 2px;
+}
+
+.logo {
+  width: clamp(64px, 15vw, 90px);
+  filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.2));
+}
+
 .cml-title {
   font-family: 'Poppins', sans-serif;
-  font-size: 30px;
-}
-.main-title { font-size: 38px; }
-
-.reset-btn {
-  position: fixed;
-  top: 15px;
-  right: 15px;
+  font-size: clamp(20px, 5vw, 30px);
+  letter-spacing: 1px;
+  color: #fffef0;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
-.admin-btn {
-  position: fixed;
-  bottom: 15px;
-  right: 15px;
+.main-title {
+  font-size: clamp(28px, 8vw, 38px);
+  margin-top: 4px;
+  text-shadow: 0 3px 12px rgba(0, 0, 0, 0.18);
 }
+
+.top-actions {
+  margin-top: 14px;
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.status-banner {
+  display: none;
+  margin: 10px auto 0;
+  width: min(100%, 460px);
+  border-radius: 12px;
+  padding: 10px 12px;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: left;
+  color: #1d2a36;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+}
+
+.status-banner.show {
+  display: block;
+}
+
+.status-info {
+  background: #e9f5ff;
+  border: 1px solid #a8d3ff;
+}
+
+.status-success {
+  background: #e9fbea;
+  border: 1px solid #a7e5ab;
+}
+
+.status-error {
+  background: #ffe9ea;
+  border: 1px solid #f4b2b6;
+}
+
+.action-btn {
+  border: none;
+  border-radius: 999px;
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
+  color: var(--dark);
+  font-family: 'Fredoka', sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
+}
+
+.action-btn:active {
+  transform: translateY(1px);
+}
+
+.admin-fab {
+  position: fixed;
+  right: 14px;
+  bottom: 18px;
+  z-index: 3;
+  width: 52px;
+  height: 52px;
+  border: none;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #ffffff, #ffe6cf);
+  font-size: 24px;
+  cursor: pointer;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease;
+}
+
+.admin-fab:hover {
+  transform: scale(1.08);
+}
+
+.confetti-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 4;
+}
+
+.confetti-layer {
+  overflow: hidden;
+}
+
+.box-wrap {
+  margin-top: 18px;
+  position: relative;
+}
+
 
 .box {
-  font-size: 110px;
-  margin-top: 40px;
+  font-size: clamp(84px, 22vw, 120px);
+  margin-top: 10px;
   cursor: pointer;
+  user-select: none;
+  transition: transform 0.25s ease;
+  animation: giftFloat 2.7s ease-in-out infinite;
+  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.22));
+}
+
+.box:hover {
+  transform: scale(1.05) rotate(-3deg);
+}
+
+.box.opening {
+  animation: giftOpen 0.75s cubic-bezier(0.2, 0.8, 0.24, 1.15) forwards;
+}
+
+.box.opened {
+  animation: none;
+  transform: scale(1.15);
+}
+
+@keyframes giftFloat {
+  0% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-8px) rotate(-2deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
+}
+
+@keyframes giftOpen {
+  0% { transform: scale(1) rotate(0deg); }
+  35% { transform: scale(1.35) rotate(-6deg); }
+  60% { transform: scale(1.2) rotate(5deg); }
+  100% { transform: scale(1.15) rotate(0deg); }
 }
 
 .verse-box {
   display: none;
-  margin: 20px auto;
-  padding: 20px;
-  background: white;
-  color: black;
-  border-radius: 15px;
+  margin: 16px auto 4px;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.96);
+  color: #17222c;
+  border-radius: 16px;
+  border-top: 5px solid #e53935;
+  width: min(100%, 460px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.13);
+  transition: border-color 0.25s ease;
 }
 
-/* Modal */
+.verse-box.show {
+  display: block;
+  animation: verseIn 0.45s ease-out;
+}
+
+@keyframes verseIn {
+  0% {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+#verse {
+  white-space: pre-line;
+  margin: 0;
+  line-height: 1.5;
+  font-size: clamp(15px, 4vw, 18px);
+}
+
+.confetti {
+  position: fixed;
+  top: -16px;
+  width: 10px;
+  height: 16px;
+  opacity: 0.95;
+  transform: translate3d(0, 0, 0) rotate(0deg);
+  animation: confettiFall var(--dur) linear forwards;
+}
+
+@keyframes confettiFall {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, -10px, 0) rotate(0deg);
+  }
+  8% { opacity: 1; }
+  100% {
+    opacity: 0.9;
+    transform: translate3d(var(--drift), 110vh, 0) rotate(var(--spin));
+  }
+}
+
 .modal {
   display: none;
   position: fixed;
-  top:0;left:0;
-  width:100%;height:100%;
-  background: rgba(0,0,0,0.7);
-  justify-content:center;
-  align-items:center;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  justify-content: center;
+  align-items: center;
 }
+
 .modal-content {
-  background:white;
-  color:black;
-  padding:20px;
-  border-radius:10px;
-  width:300px;
+  background: #ffffff;
+  color: #1d2a36;
+  padding: 16px;
+  border-radius: 16px;
+  width: min(92vw, 420px);
+  max-height: 88vh;
+  overflow-y: auto;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+}
+
+.modal-content input,
+.modal-content textarea,
+.modal-content button {
+  width: 100%;
+  font-family: 'Fredoka', sans-serif;
+  font-size: 14px;
+}
+
+.modal-content input,
+.modal-content textarea {
+  border: 1px solid #d8dee5;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.modal-content button {
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: #1f2730;
+  font-weight: 600;
+  padding: 11px;
+  cursor: pointer;
+}
+
+.admin-help {
+  margin: 10px 0 12px;
+  font-size: 12px;
+  color: #4a5a68;
+}
+
+@media (min-width: 768px) {
+  .app-shell {
+    margin-top: 14px;
+    padding: 20px 22px 24px;
+  }
+
+  .top-actions {
+    justify-content: space-between;
+  }
+
+  .action-btn {
+    width: 48px;
+    height: 48px;
+    font-size: 22px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body {
+    animation: none;
+  }
+
+  .box,
+  .box.opening,
+  .verse-box.show {
+    animation: none !important;
+    transition: none !important;
+  }
 }
 </style>
-
 </head>
-
 <body>
 
-<div class="header">
-  <img src="cmlLogo.png" class="logo">
-  <div class="cml-title">CML CHENGALAM</div>
-  <div class="main-title">🎁 Treasure Box</div>
-</div>
+<div class="app-shell">
+  <div class="header">
+    <img src="cmlLogo.png" class="logo" alt="CML logo">
+    <div class="cml-title">CML CHENGALAM</div>
+    <div class="main-title">&#127873; Treasure Box</div>
+  </div>
 
-<button class="reset-btn" onclick="resetBox()">Reset</button> <button onclick="toggleMusic()">🎵</button> <button class="admin-btn" onclick="openLogin()">🔐</button>
+  <div class="top-actions">
+    <button class="action-btn" onclick="resetBox()" title="Reset" aria-label="Reset">&#8635;</button>
+    <button class="action-btn" onclick="toggleMusic()" title="Music" aria-label="Music">&#127925;</button>
+  </div>
 
-<div>
-  <div id="box" class="box">🎁</div>
-</div>
+  <div id="statusBanner" class="status-banner status-info" role="status" aria-live="polite"></div>
 
-<div id="verseBox" class="verse-box">
-  <p id="verse"></p>
-</div>
+  <div class="box-wrap">
+    <div id="box" class="box" onclick="openBox()">&#127873;</div>
+  </div>
 
-<!-- LOGIN -->
+  <div id="verseBox" class="verse-box">
+    <p id="verse"></p>
+  </div>
 
-<div id="loginModal" class="modal">
-  <div class="modal-content">
-    <h3>Admin Login</h3>
-    <input id="username" placeholder="Username"><br><br>
-    <input id="password" type="password" placeholder="Password"><br><br>
-    <button onclick="login()">Login</button>
-    <button onclick="closeLogin()">Close</button>
+  <div id="loginModal" class="modal">
+    <div class="modal-content">
+      <h3>Admin Login</h3>
+      <input id="username" placeholder="Username"><br><br>
+      <input id="password" type="password" placeholder="Password"><br><br>
+      <button onclick="login()">Login</button>
+      <button onclick="closeLogin()">Close</button>
+    </div>
+  </div>
+
+  <div id="adminPanel" class="modal">
+    <div class="modal-content">
+      <h3>Admin Panel</h3>
+      <textarea id="quotesInput" style="width:100%;height:120px;"></textarea><br><br>
+      <div class="admin-help">Use --- on a separate line to split quotes. Keep normal line breaks inside one quote.</div>
+      <button id="saveBtn" onclick="saveQuotes()">Save</button>
+
+      <hr>
+
+      <input id="newUser" placeholder="New Username"><br><br>
+      <input id="newPass" placeholder="New Password"><br><br>
+      <button onclick="changePassword()">Change</button>
+
+      <br><br>
+      <button onclick="closeAdmin()">Close</button>
+    </div>
   </div>
 </div>
 
-<!-- ADMIN -->
+<button class="admin-fab" onclick="openLogin()" title="Admin login" aria-label="Admin login">&#128274;</button>
+<div id="confettiLayer" class="confetti-layer" aria-hidden="true"></div>
 
-<div id="adminPanel" class="modal">
-  <div class="modal-content">
-    <h3>Admin Panel</h3>
-    <textarea id="quotesInput" style="width:100%;height:120px;"></textarea><br><br>
-    <button onclick="saveQuotes()">Save</button>
-
-```
-<hr>
-
-<input id="newUser" placeholder="New Username"><br><br>
-<input id="newPass" placeholder="New Password"><br><br>
-<button onclick="changePassword()">Change</button>
-
-<br><br>
-<button onclick="closeAdmin()">Close</button>
-```
-
-  </div>
-</div>
-
-<audio id="openSound" src="open.mp3"></audio> <audio id="bgMusic" src="bgmusic.mp3" loop></audio>
+<audio id="openSound" src="open.mp3"></audio>
+<audio id="bgMusic" src="bgmusic.mp3" loop></audio>
 
 <script>
-
 let verses = [];
 let opened = false;
+const verseAccents = ["#e53935", "#149c8f", "#f4e531", "#ef6a3c"];
+const DRAFT_QUOTES_KEY = "quotesDraft";
+const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+let statusTimer = null;
 
-/* LOAD FROM JSON */
-fetch("verses.json")
-  .then(res => res.json())
-  .then(data => verses = data);
+const FALLBACK_VERSES = [
+  "The Lord is my shepherd; I shall not want. Psalm 23:1",
+  "Your word is a lamp to my feet and a light to my path. Psalm 119:105",
+  "I can do all things through Christ who strengthens me. Philippians 4:13"
+];
 
-/* BOX */
-document.getElementById("box").onclick = () => {
-  if (opened) return;
-  opened = true;
-  openBox();
-};
+async function loadVerses() {
+  try {
+    const res = await fetch("verses.json", { cache: "no-store" });
+    if (!res.ok) {
+      throw new Error("Failed to fetch verses.json");
+    }
+
+    const data = await res.json();
+    if (!Array.isArray(data) || data.length === 0) {
+      throw new Error("verses.json is empty or invalid");
+    }
+
+    verses = data;
+    localStorage.setItem("offlineVerses", JSON.stringify(verses));
+  } catch (err) {
+    const cached = localStorage.getItem("offlineVerses");
+    verses = cached ? JSON.parse(cached) : FALLBACK_VERSES;
+    console.warn("Using offline verses fallback:", err.message || err);
+  }
+}
+
+loadVerses();
 
 function openBox() {
-  document.getElementById("openSound").play();
-  const random = verses[Math.floor(Math.random()*verses.length)];
-  setTimeout(()=>{
+  if (opened) {
+    showStatus("Press Reset to open again.", "info", 1800);
+    return;
+  }
+
+  const boxEl = document.getElementById("box");
+  const verseBoxEl = document.getElementById("verseBox");
+
+  document.getElementById("openSound").play().catch(() => {});
+
+  if (!Array.isArray(verses) || verses.length === 0) {
+    document.getElementById("verse").innerText = "Verses are still loading. Please try again.";
+    verseBoxEl.classList.add("show");
+    return;
+  }
+
+  opened = true;
+  boxEl.classList.remove("opened");
+  boxEl.classList.add("opening");
+  launchConfetti();
+
+  const random = verses[Math.floor(Math.random() * verses.length)];
+  verseBoxEl.style.borderTopColor = verseAccents[Math.floor(Math.random() * verseAccents.length)];
+  setTimeout(() => {
+    boxEl.classList.remove("opening");
+    boxEl.classList.add("opened");
     document.getElementById("verse").innerText = random;
-    document.getElementById("verseBox").style.display="block";
-  },500);
+    verseBoxEl.classList.remove("show");
+    void verseBoxEl.offsetWidth;
+    verseBoxEl.classList.add("show");
+  }, 520);
 }
 
-function resetBox(){
-  opened=false;
-  document.getElementById("verseBox").style.display="none";
+function resetBox() {
+  opened = false;
+  document.getElementById("box").classList.remove("opening", "opened");
+  document.getElementById("verseBox").classList.remove("show");
 }
 
-/* LOGIN */
+function launchConfetti() {
+  const layer = document.getElementById("confettiLayer");
+  const colors = ["#ff6b6b", "#ffd166", "#06d6a0", "#4cc9f0", "#f72585", "#ffffff"];
+  const pieces = 36;
+
+  for (let i = 0; i < pieces; i++) {
+    const c = document.createElement("span");
+    const x = Math.random() * window.innerWidth;
+    const sizeW = 6 + Math.random() * 8;
+    const sizeH = 10 + Math.random() * 12;
+    const duration = 1700 + Math.random() * 1800;
+    const drift = -140 + Math.random() * 280;
+    const spin = -380 + Math.random() * 760;
+
+    c.className = "confetti";
+    c.style.left = x + "px";
+    c.style.width = sizeW + "px";
+    c.style.height = sizeH + "px";
+    c.style.background = colors[i % colors.length];
+    c.style.borderRadius = Math.random() > 0.6 ? "50%" : "2px";
+    c.style.setProperty("--dur", duration + "ms");
+    c.style.setProperty("--drift", drift + "px");
+    c.style.setProperty("--spin", spin + "deg");
+    c.style.animationDelay = Math.random() * 420 + "ms";
+
+    layer.appendChild(c);
+    c.addEventListener("animationend", () => c.remove(), { once: true });
+  }
+}
+
 let ADMIN_USER = localStorage.getItem("user") || "ADMIN";
 let ADMIN_PASS = localStorage.getItem("pass") || "ADMIN";
 
-function openLogin(){
-  document.getElementById("loginModal").style.display="flex";
-}
-function closeLogin(){
-  document.getElementById("loginModal").style.display="none";
+function openLogin() {
+  document.getElementById("loginModal").style.display = "flex";
 }
 
-function login(){
-  let u=document.getElementById("username").value;
-  let p=document.getElementById("password").value;
+function closeLogin() {
+  document.getElementById("loginModal").style.display = "none";
+}
 
-  if(u===ADMIN_USER && p===ADMIN_PASS){
+function login() {
+  const u = document.getElementById("username").value;
+  const p = document.getElementById("password").value;
+
+  if (u === ADMIN_USER && p === ADMIN_PASS) {
     closeLogin();
     openAdmin();
   } else {
-    alert("Invalid login");
+    showStatus("Invalid login", "error");
   }
 }
 
-/* ADMIN */
-function openAdmin(){
-  document.getElementById("adminPanel").style.display="flex";
-  document.getElementById("quotesInput").value = verses.join("\n");
-}
-function closeAdmin(){
-  document.getElementById("adminPanel").style.display="none";
-}
+function openAdmin() {
+  const draft = localStorage.getItem(DRAFT_QUOTES_KEY);
 
-/* SAVE TO GITHUB */
-async function saveQuotes(){
-  const quotes = document.getElementById("quotesInput").value.split("\n");
+  document.getElementById("adminPanel").style.display = "flex";
+  document.getElementById("quotesInput").value = draft || verses.join("\n---\n");
 
-  const res = await fetch("/api/saveQuotes",{
-    method:"POST",
-    headers:{
-      "Content-Type":"application/json",
-      "Authorization":"SECRET123"
-    },
-    body: JSON.stringify({quotes})
-  });
-
-  const data = await res.json();
-  if(data.success){
-    alert("Saved! Redeploying...");
-  } else {
-    alert("Error");
+  if (draft) {
+    showStatus("Loaded your unsaved draft.", "info", 2200);
   }
 }
 
-/* PASSWORD CHANGE */
-function changePassword(){
+function closeAdmin() {
+  document.getElementById("adminPanel").style.display = "none";
+}
+
+async function saveQuotes() {
+  const saveBtn = document.getElementById("saveBtn");
+  const quotesInput = document.getElementById("quotesInput");
+  const quotes = parseQuotesInput(quotesInput.value);
+
+  if (quotes.length === 0) {
+    showStatus("Please enter at least one verse.", "error");
+    return;
+  }
+
+  verses = quotes;
+  localStorage.setItem("offlineVerses", JSON.stringify(quotes));
+
+  try {
+    setSavingState(true);
+
+    const res = await fetch("/api/saveQuotes", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "SECRET123"
+      },
+      body: JSON.stringify({ quotes })
+    });
+
+    const data = await res.json();
+    if (!res.ok || !data.success) {
+      throw new Error(data.details || data.error || "Save failed");
+    }
+
+    localStorage.removeItem(DRAFT_QUOTES_KEY);
+    showStatus("Saved to GitHub successfully." + (data.commit ? " Commit: " + data.commit : ""), "success", 4200);
+  } catch (err) {
+    showStatus("Save failed: " + (err.message || err), "error", 5200);
+  } finally {
+    setSavingState(false);
+  }
+}
+
+function parseQuotesInput(rawText) {
+  return rawText
+    .split(/\r?\n\s*---\s*\r?\n/g)
+    .map(q => q.trim())
+    .filter(Boolean);
+}
+
+function changePassword() {
   localStorage.setItem("user", document.getElementById("newUser").value);
   localStorage.setItem("pass", document.getElementById("newPass").value);
-  alert("Updated");
+  showStatus("Admin credentials updated on this browser.", "success", 2600);
 }
 
-/* MUSIC */
-function toggleMusic(){
-  let m=document.getElementById("bgMusic");
-  m.paused?m.play():m.pause();
+function toggleMusic() {
+  const m = document.getElementById("bgMusic");
+  m.paused ? m.play() : m.pause();
 }
 
+function showStatus(message, type, timeout) {
+  const banner = document.getElementById("statusBanner");
+  const kind = type || "info";
+  const hold = typeof timeout === "number" ? timeout : 3200;
+
+  banner.textContent = message;
+  banner.className = "status-banner show status-" + kind;
+
+  if (statusTimer) {
+    clearTimeout(statusTimer);
+  }
+
+  statusTimer = setTimeout(() => {
+    banner.className = "status-banner status-info";
+  }, hold);
+}
+
+function setSavingState(isSaving) {
+  const saveBtn = document.getElementById("saveBtn");
+  if (!saveBtn) return;
+
+  saveBtn.disabled = isSaving;
+  saveBtn.textContent = isSaving ? "Saving..." : "Save";
+  saveBtn.style.opacity = isSaving ? "0.7" : "1";
+}
+
+document.getElementById("quotesInput").addEventListener("input", (e) => {
+  localStorage.setItem(DRAFT_QUOTES_KEY, e.target.value);
+});
 </script>
 
 </body>
